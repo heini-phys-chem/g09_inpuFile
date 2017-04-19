@@ -28,8 +28,8 @@ calculation (<ts> or <irc>):
 ```
 specify the type of calculation you want to use. So far only OPT=TS and IRC are available.
 The line in the input file will look like:
-- OPT=(ts,CalcAll,NoEigenTest)
-- irc=(CalcAll,maxpoints=300) geom=check
+- OPT=(TS,CalcAll,NoEigenTest)
+- IRC=(CalcAll,MaxPoints=300) geom=check
 
 For the IRC calculation you don't need a coordinate file (informations are in the check point file). For the TS calculation you need to specify an .xyz file.
 ```
