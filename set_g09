@@ -1,0 +1,81 @@
+#!/bin/bash
+
+# instructions
+echo "##############################################"
+echo "script to generate a g09 input file"
+echo "so far only TS and IRC calculations available!"
+echo "##############################################"
+
+rm -f inputFile.com
+
+# read in options
+echo "Chk file (<file>.chk):"
+read chk
+echo "nprocshared (integer):"
+read nprocshared
+echo "mem (in GB, integer):"
+read mem
+echo "method (g09 syntax, with basis set):"
+read method
+echo "calculation (<ts> or <irc>):"
+read calc
+
+# check for input (only ts and irc are available)
+if [ "${calc}" != "irc" ] && [ "${calc}" != "ts" ]; then
+	echo "only options available are irc or ts, choose again"
+	read calc
+fi
+
+# if calc=ts then you need to specify the coordinates
+if [ "${calc}" = "ts" ]; then
+	echo "enter coord file <path/to/coordFile>.xyz"
+	read -e coords
+fi
+
+echo "charge (integer):"
+read charge
+echo "multiplicity (integer):"
+read mult
+#echo "geom=check? (<yes> or <no>):"
+#read geom
+
+#if [ "${geom}" = "no" ]; then
+# check for irc
+if [ "${calc}" = "irc" ]; then
+	# create g09 input file
+	cat <<EOT >> inputFile.com
+%Chk=${chk}
+%nprocshared=${nprocshared}
+%mem=${mem}GB
+#n ${method} ${calc}=(CalcAll,maxpoints=300) geom=check
+
+ titel
+
+${charge} ${mult}
+EOT
+
+fi
+
+# check for ts
+if [ ${calc} = "ts" ]; then
+	cat <<EOT >> inputFile.com
+%Chk=${chk}
+%nprocshared=${nprocshared}
+%mem=${mem}GB
+#n ${method} OPT=(${calc},CalcAll,NoEigenTest)
+
+ titel
+
+${charge} ${mult}
+EOT
+
+	sed 1,2d "${coords}" | while read l
+	do
+		echo -e $l >> "inputFile.com"
+	done
+
+	cat >> "inputFile.com" <<!EOF
+
+!EOF
+
+fi
