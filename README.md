@@ -1,6 +1,7 @@
 # g09_inpuFile
 A bash script that generates g09 input files (only TS and IRC calculations available)
 
+## Tutorial
 The script will ask you to define several input parameters:
 ```
 Chk file (<file.chk>):
@@ -36,3 +37,34 @@ enter coord file <path/to/coordFile.xyz>
 ```
 
 As a last step you have to define the charge of the molecule and its spin multiplicity
+
+## example input files
+For IRC calculations:
+```
+Chk=test.chk 
+%nprocshared=8 
+%mem=2GB 
+#n PM6 irc=(CalcAll,maxpoints=300) geom=check
+
+titel
+
+0 1
+```
+For TS calculations:
+```
+%Chk=test.chk
+%nprocshared=8
+%mem=2GB
+#n B3LYP 6-31G* OPT=(ts,CalcAll,NoEigenTest)
+
+ titel
+ 
+ 0 1
+ C -0.63915 0.25896 0.07123
+ C -0.86034 -1.13733 -0.45706
+ H -3.48896 0.06908 1.69981
+ .
+ .
+ .
+ 
+```
