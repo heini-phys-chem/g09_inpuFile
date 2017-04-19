@@ -38,7 +38,7 @@ enter coord file <path/to/coordFile.xyz>
 
 As a last step you have to define the charge of the molecule and its spin multiplicity
 
-## example input files
+## Example input files
 For IRC calculations:
 ```
 Chk=test.chk 
